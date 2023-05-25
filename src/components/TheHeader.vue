@@ -18,11 +18,11 @@
             </ul>
         </nav>
         <!-- Кнопка авторизации -->
-        <a v-if="token==null" @click="modal='auth'" class="cta" href="#">
+        <router-link to="/auth" v-if="token==null"  class="cta" href="#">
             <button class="btn_Auth">Войти</button>
-        </a>
+        </router-link >
         <!-- Вход в аккаунт -->
-        <a v-if="token!=null" @click="page='profile'" class="" href="#">
+        <a v-if="token!=null" @click="modal='profile'" class="" href="#">
             <button class="btn_Auth profile" >
                 <img :src="user.photo" alt="ava">
                 <span>Здравствуйте, {{user.name}}</span>
@@ -35,7 +35,6 @@
 export default {
     data(){
         return {
-            page: 'catalog',
             modal: null,
             url: 'http://store/public/api/',
 

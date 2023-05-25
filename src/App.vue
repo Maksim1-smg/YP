@@ -1,7 +1,7 @@
 <template>
     <TheHeader/>
     <router-view/>
-    <section v-if="modal">
+    <section v-if="false">
       <ModalAuth />
       <ModalRegistration />
     </section>
@@ -9,10 +9,15 @@
 
 <script>
 import TheHeader from "@/components/TheHeader.vue";
-import ModalAuth from "@/components/ModalAuth.vue";
-import ModalRegistration from "@/components/ModalRegistration";
+import ModalAuth from "@/views/ModalAuth.vue";
+import ModalRegistration from "@/views/ModalRegistration.vue";
 
 export default {
+    data() {
+        return {
+            modal: 'auth',
+        }
+    },
   name: 'app',
   components: {
       TheHeader,

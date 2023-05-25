@@ -160,6 +160,14 @@ header {
     outline: none;
 }
 
+.pop_Reg {
+    width: 750px;
+}
+
+.btnReg {
+    width: 100%;
+}
+
 .reg.openReg {
     display: block;
 }

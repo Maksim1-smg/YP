@@ -1,5 +1,5 @@
 <template>
-  <div v-if="page=='auth'" class="pop" id="pop">
+  <div class="pop" id="pop">
     <div class="pop_container">
       <div class="pop_body">
         <p class="pop_Auth_p">Вход</p>
@@ -14,11 +14,13 @@
           </label>
           <label>
             {{validateAuth}}
-            <button @click="login">Войти</button>
+            <button type="button" @click="login">Войти</button>
           </label>
-          <p class="reg_Auth">Если вы не зарегистрированы, это можно сделать <a @click="page='reg'" href="#" id="open_Reg">здесь</a></p>
+          <p class="reg_Auth">Если вы не зарегистрированы, это можно сделать
+              <router-link to="/registration" id="open_Reg">здесь</router-link>
+          </p>
         </form>
-        <div @click="page=null" class="pop_close" id="pop_close"></div>
+        <router-link to="/" class="pop_close" id="pop_close"></router-link>
       </div>
     </div>
   </div>
@@ -49,8 +51,6 @@ export default {
       this.token = localStorage.token
     else
       this.token = null
-
-    this.userInfo();
   },
   methods: {
     async login() { //Авторизация
@@ -67,6 +67,31 @@ export default {
           .then(response => response.json())
           .then(data => data.data ? this.Auth(data.data.user_token) : this.AuthFail(data.error.errors));
     },
+    //login
+    Auth(token) {
+        this.token = token;
+        localStorage.token = token;
+        location.reload();
+    },
+
+    AuthFail(errors) {
+        this.clearValidation();
+        if (!errors)
+            return this.validateAuth = 'Не верный логин или пароль!';
+
+        this.validationError(errors);
+    },
+
+    validationError(errors) {
+        this.validateLogin = errors.login ? errors.login[0] : null;
+        this.validatePassword = errors.password ? errors.password[0] : null;
+    },
+
+    clearValidation() {
+        this.validateAuth = null;
+        this.validateLogin = null;
+        this.validatePassword = null;
+    }
   }
 }
 </script>
