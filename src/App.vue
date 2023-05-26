@@ -12,6 +12,7 @@ import TheHeader from "@/components/TheHeader.vue";
 import ModalAuth from "@/views/ModalAuth.vue";
 import ModalRegistration from "@/views/ModalRegistration.vue";
 
+
 export default {
     data() {
         return {
@@ -23,6 +24,7 @@ export default {
       TheHeader,
       ModalAuth,
       ModalRegistration,
+
   },
 }
 </script>

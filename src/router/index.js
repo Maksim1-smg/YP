@@ -17,6 +17,14 @@ const routes = [
     path: '/registration',
     component: () => import('@/views/ModalRegistration.vue')
   },
+  {
+    path: '/AddProduct',
+    component: () => import('@/views/AddProduct.vue')
+  },
+  {
+    path: '/PageBasket',
+    component: () => import('@/views/PageBasket.vue')
+  },
 ]
 
 const router = createRouter({

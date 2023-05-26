@@ -1,7 +1,7 @@
 <template>
   <!-- ШАПКА -->
     <header>
-        <img class="logo" src="@/assets/logo.png"  alt="logo">
+        <img class="logo" src="@/assets/Logo.svg"  alt="logo">
         <!-- Навигация сайта -->
         <nav>
             <ul class="nav_links">
