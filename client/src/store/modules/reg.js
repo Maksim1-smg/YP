@@ -16,7 +16,7 @@ export default {
 
     //принимаем данные
     actions: {
-        //функция регистрации
+        //функция авторизации
         async onReg({commit}, [surname, name, patronymic, telephone, login, password, photo]) {
             try {
                 //запрос на сервер

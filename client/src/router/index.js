@@ -7,37 +7,38 @@ const routes = [
     alias: '/catalog',
     component: () => import('@/views/CatalogView.vue')
   },
-
   {
     path: '/auth',
     component: () => import('@/views/ModalAuth.vue'),
     beforeEnter: (to, from, next) => {
-      if (!store.state.auth.token) {
-        next();
-      } else next('/');
-    }
+      if (!store.getters.TOKEN) {
+        next()
+      } else {
+        alert("Вы уже авторезированы")
+        next('/')
+      }
+    },
   },
-
   {
     path: '/registration',
     component: () => import('@/views/ModalRegistration.vue')
   },
-
   {
     path: '/profile',
     component: () => import('@/views/ProfileView.vue')
   },
-
   {
     path: '/add_product',
-    component: () => import('@/views/AddProduct.vue')
+    component: () => import('@/views/AddProduct.vue'),
+    beforeEnter: (to, from, next) => {
+      if (isRole(store.getters.ROLE, ["admin", "manager"])) {
+        next()
+      } else {
+        alert("Нет доступа")
+        next('/')
+      }
+    },
   },
-
-  {
-    path: '/add_user',
-    component: () => import('@/views/AddUser.vue')
-  },
-
   {
     path: '/update_user',
     component: () => import('@/views/ModalRegistration.vue')
@@ -49,19 +50,47 @@ const routes = [
   },
 
   {
-    path: '/users',
-    component: () => import('@/views/AllUsers.vue')
+    path: '/all_product',
+    component: () => import('@/views/AllProduct.vue'),
+    beforeEnter: (to, from, next) => {
+      if (isRole(store.getters.ROLE === 'admin')) {
+        next()
+      } else {
+        alert("Нет доступа")
+        next('/')
+      }
+    }
   },
 
   {
-    path: '/products',
-    component: () => import('@/views/AllProduct.vue')
+    path: '/all_users',
+    component: () => import('@/views/AllUsers.vue'),
+    beforeEnter: (to, from, next) => {
+      if (isRole(store.getters.ROLE, ["admin", "manager"])) {
+        next()
+      } else {
+        alert("Нет доступа")
+        next('/')
+      }
+    }
   },
+
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+function isRole(role, roles) {
+  let result = false
+  roles.forEach((el) => {
+    if (role === el) {
+      result = true
+    }
+  })
+
+  return result
+}
 
 export default router
