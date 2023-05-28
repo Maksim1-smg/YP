@@ -14,6 +14,7 @@ class Product extends Model
         'name',
         'model',
         'photo_file',
+        'rate',
         'price',
         'amount',
         'description',

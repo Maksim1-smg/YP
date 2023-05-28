@@ -39,8 +39,6 @@ export default {
     //обновляем и выводим данные
     getters: {
         //обновляет и возвращает список категорий
-        CATEGORY(state) {
-            return state.category
-        }
+        CATEGORY: state => state.category
     }
 }

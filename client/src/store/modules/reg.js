@@ -17,22 +17,21 @@ export default {
     //принимаем данные
     actions: {
         //функция авторизации
-        async onReg({commit}, [surname, name, patronymic, telephone, login, password, photo]) {
+        async onReg({commit}, [surname, name, patronymic, telephone, login, password]) {
             try {
                 //запрос на сервер
                 const res = await fetch('http://store/public/api/reg', {
                     method: 'post',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'multipart/form-data'
                     },
-                    body: JSON.stringify({
+                    body: ({
                         surname: surname,
                         name: name,
                         patronymic: patronymic,
                         telephone: telephone,
                         login: login,
                         password: password,
-                        photo: photo,
                     })
                 })
 
@@ -86,12 +85,8 @@ export default {
     //обновляем и выводим данные
     getters: {
         //обновляет и возвращает ошибки валидации полей
-        VALIDATION_ERROR_REG(state) {
-            return state.validationError
-        },
+        VALIDATION_ERROR_REG: state => state.validationError,
 
-        IS_REG(state) {
-            return state.isReg
-        }
+        IS_REG: state => state.isReg,
     }
 }

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
+use App\Http\Requests\User\AvatarRequest;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RegistrationRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -42,11 +44,7 @@ class UserController extends Controller
     public function add(RegistrationRequest $request)
     {
         $user = User::create(
-            [
-                'photo_file' => $request->photo_file ?
-                    'http://store/storage/app/' . $request->photo_file->store('public/images/users') :
-                    'http://store/storage/app/public/images/users/default.png',
-            ] + $request->all()
+            $request->all()
         );
 
         return response()->json([
@@ -57,6 +55,24 @@ class UserController extends Controller
         ])->setStatusCode(201, 'Created');
     }
 
+    public function avatar(AvatarRequest $request) {
+        $user = auth()->user();
+
+        if($user->photo_file)
+            Storage::disk('avatars')->delete($user->photo_file);
+
+        $user->update([
+            'photo_file' => $request->photo_file->storePublicly('', ['disk' => 'avatars']),
+        ]);
+
+        return response()->json([
+            'data' => [
+                'id' => $user->id,
+                'status' => true
+            ]
+        ]);
+    }
+
     public function remove($id) {
         User::find($id)->delete();
 
@@ -65,21 +81,17 @@ class UserController extends Controller
                 'id' => $id,
                 'status' => 'removed'
             ]
-        ])->setStatusCode(202, 'Removed');
+        ]);
     }
 
     public function update(UpdateRequest $request, $id) {
-        $user = User::find($id)->update(
-            [
-                'photo_file' => $request->photo_file ? $request->photo_file->store('photos') : null,
-            ] + $request->all()
-        );
+        User::find($id)->update($request->all());
 
         return response()->json([
             'data' => [
-                'id' => $user->id,
+                'id' => $id,
                 'status' => 'updated'
             ]
-        ])->setStatusCode(204, 'Updated');
+        ]);
     }
 }

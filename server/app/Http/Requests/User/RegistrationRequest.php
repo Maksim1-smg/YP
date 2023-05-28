@@ -11,11 +11,10 @@ class RegistrationRequest extends ApiRequest
         return [
             'name' => 'required|string|max:32',
             'surname' => 'required|string|max:32',
-            'patronymic' => 'string|max:32',
+            'patronymic' => 'max:32',
             'login' => 'required|unique:user|string|max:255',
             'password' => 'required|string|max:255',
-            'telephone' => 'required|string|unique:user|max:11',
-            'photo_file' => 'image|mimes:jpeg,png',
+            'telephone' => 'required|string|unique:user|max:11|min:11',
             'role_id' => 'integer',
         ];
     }

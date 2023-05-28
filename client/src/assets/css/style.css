@@ -575,7 +575,7 @@ footer {
 .Btn_add_product {
     display: block;
     width: 330px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px 0;
     font-weight: 500;
     font-size: 16px;
@@ -596,4 +596,11 @@ footer {
 
 .add_photo_product label {
     margin: 10px;
+}
+
+.add__products {
+    display: flex;
+    flex-direction: column;
+    max-width: 1400px;
+    margin: 0 auto;
 }

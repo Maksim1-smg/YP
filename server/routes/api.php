@@ -9,7 +9,6 @@ Route::controller(\App\Http\Controllers\UserController::class)->group(function (
     Route::post('/reg', 'add');
     Route::middleware('auth:api')->get('/logout',  'logout');
     Route::middleware('auth:api')->get('/info',  'info');
-    Route::post('/user/{id}/update', 'update');
 });
 
 //admin
@@ -18,6 +17,15 @@ Route::middleware(['auth:api', 'role:admin'])->group(function () {
     Route::controller(\App\Http\Controllers\UserController::class)->group(function () {
         Route::get('/user', 'user');
         Route::get('/user/{id}/remove', 'remove');
+        Route::post('/user/{id}/update', 'update');
+    });
+});
+
+//admin / manager
+Route::middleware(['auth:api', 'role:admin|manager'])->group(function () {
+    //product action
+    Route::controller(\App\Http\Controllers\ProductController::class)->group(function () {
+        Route::post('/product/add', 'add');
     });
 });
 
@@ -27,3 +35,10 @@ Route::controller(\App\Http\Controllers\ProductController::class)->group(functio
     Route::get('/product/{category}', 'category');
 });
 Route::get('/category', [\App\Http\Controllers\TypeProductController::class, 'type']);
+
+//auth
+Route::middleware('auth:api')->group(function () {
+   Route::controller(\App\Http\Controllers\UserController::class)->group(function () {
+       Route::post('/user/avatar', 'avatar');
+   });
+});

@@ -137,6 +137,7 @@ export default {
 
         //метод для записи информации авторизированного пользователя
         SET_USER(state, user) {
+            state.user.photo = 'http://store/storage/app/public/images/users/'
             state.user = {
                 'id': user.id,
                 'name': user.name,
@@ -145,9 +146,8 @@ export default {
                 'telephone': user.telephone,
                 'login': user.login,
                 'group': user.group,
-                'photo': user.photo,
+                'photo': state.user.photo + (user.photo ? user.photo : 'default.png'),
             }
-            localStorage.setItem('user', user)
         },
 
         SET_VALIDATION_ERROR_INPUT(state, errors) {

@@ -1,7 +1,8 @@
 <template>
   <div class="cart">
     <div class="basket">
-      <h1>Все пользователи</h1>
+      <h1>Продукты</h1>
+      <router-link to="/add_product"><button style="width: 170px" class="red">Добавить продукт</button></router-link>
     </div>
     <table>
       <thead>
@@ -21,7 +22,7 @@
         <th>{{ item.price }}</th>
         <td class="" style="width: 260px; display:flex; justify-content: space-between">
           <button class="delete" @click="removeItem(index)">Удалить</button>
-          <a href="/add_product"><button class="red" >Редактировать</button></a>
+          <router-link to="/add_product"><button class="red" >Редактировать</button></router-link>
         </td>
       </tr>
       </tbody>

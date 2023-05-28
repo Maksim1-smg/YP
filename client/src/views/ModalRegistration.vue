@@ -2,7 +2,7 @@
   <div class="reg" id="reg">
     <div class="pop_container">
       <div class="pop_body pop_Reg">
-        <p class="pop_Auth_p" v-if="ROLE === 'admin'">Добавить пользователя</p>
+        <p class="pop_Auth_p" v-if="IS_AUTH">Изменить</p>
         <p class="pop_Auth_p" v-else>Регистрация</p>
         <form action="">
           <div class="reg_Inp">
@@ -33,23 +33,25 @@
                 {{VALIDATION_ERROR_REG.password}}
                 <input v-model="passwordInput" id="password" type="password" name="password" placeholder="Пароль">
               </label>
-              <label>
-                {{VALIDATION_ERROR_REG.photo}}
-                <input @change="onFileChange" name="AddImage" id="AddImage" type="file" placeholder="Фото">
+              <label v-if="IS_AUTH">
+                <router-link to="upload"><button type="button">Загрузить аватар</button></router-link>
               </label>
             </div>
           </div>
-          <label class="agreements">
+          <label v-if="!IS_AUTH" class="agreements">
             {{validAgree}}
             <span class="agreement">
                 <input v-model="agreementsCheck" type="checkbox" placeholder="" >
                 Соглашение с правилами сайта
             </span>
           </label>
-          <label class="btnReg">
+          <label class="btnReg" v-if="IS_AUTH">
+            <button type="button" @click="btnReg">Изменить</button>
+          </label>
+          <label class="btnReg" v-else>
             <button type="button" @click="btnReg">Зарегестрироваться</button>
           </label>
-          <p class="reg_Auth">Если у вас есть аккаунт, можно войти<router-link to="auth" @click="modal='auth'" href="#" id="open_Auth"> здесь</router-link></p>
+          <p v-if="!IS_AUTH" class="reg_Auth">Если у вас есть аккаунт, можно войти<router-link to="auth" @click="modal='auth'" href="#" id="open_Auth"> здесь</router-link></p>
         </form>
         <div @click="$router.go(-1)" class="pop_close" id="close_Reg"></div>
       </div>
@@ -71,13 +73,13 @@ export default {
       surnameInput: '',
       patronymicInput: '',
       telephoneInput: '',
-      photoInput: '',
+      photoFile: null,
       agreementsCheck: false,
       validAgree: '',
     }
   },
   computed: {
-    ...mapGetters(["IS_REG", "VALIDATION_ERROR_REG", "ROLE"])
+    ...mapGetters(["IS_REG", "VALIDATION_ERROR_REG", "ROLE", "IS_AUTH"])
   },
   methods: {
     ...mapActions(["onReg"]),
@@ -87,7 +89,7 @@ export default {
         return this.validAgree = 'Сначала согласить с условиями регистрации!'
       else this.validAgree = ''
 
-      await this.onReg([this.surnameInput, this.nameInput, this.patronymicInput, this.telephoneInput.toString(), this.loginInput, this.passwordInput, this.photoInput])
+      await this.onReg([this.surnameInput, this.nameInput, this.patronymicInput, this.telephoneInput.toString(), this.loginInput, this.passwordInput])
 
       if(this.IS_REG)
         router.push('/auth')

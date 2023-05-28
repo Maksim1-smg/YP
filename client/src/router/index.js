@@ -53,7 +53,7 @@ const routes = [
     path: '/all_product',
     component: () => import('@/views/AllProduct.vue'),
     beforeEnter: (to, from, next) => {
-      if (isRole(store.getters.ROLE === 'admin')) {
+      if (isRole(store.getters.ROLE, ["admin", "manager"])) {
         next()
       } else {
         alert("Нет доступа")
@@ -66,7 +66,7 @@ const routes = [
     path: '/all_users',
     component: () => import('@/views/AllUsers.vue'),
     beforeEnter: (to, from, next) => {
-      if (isRole(store.getters.ROLE, ["admin", "manager"])) {
+      if (isRole(store.getters.ROLE, ["admin"])) {
         next()
       } else {
         alert("Нет доступа")
@@ -74,7 +74,18 @@ const routes = [
       }
     }
   },
-
+  {
+    path: '/upload',
+    component: () => import('@/views/ModalImages.vue'),
+    beforeEnter: (to, from, next) => {
+      if (store.getters.IS_AUTH) {
+        next()
+      } else {
+        alert("Нет доступа")
+        next('/')
+      }
+    }
+  },
 ]
 
 const router = createRouter({
