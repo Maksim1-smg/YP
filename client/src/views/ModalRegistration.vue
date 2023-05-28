@@ -4,107 +4,93 @@
       <div class="pop_body pop_Reg">
         <p class="pop_Auth_p">Регистрация</p>
         <form action="">
-          <div class="d-flex">
+          <div class="reg_Inp">
             <div>
               <label>
-                {{validateName}}
+                {{VALIDATION_ERROR_REG.surname}}
                 <input v-model="surnameInput" type="text" placeholder="Фамилия">
               </label>
               <label>
-                {{validateSurname}}
+                {{VALIDATION_ERROR_REG.name}}
                 <input v-model="nameInput" type="text" placeholder="Имя">
               </label>
               <label>
-                {{validatePatronymic}}
+                {{VALIDATION_ERROR_REG.patronymic}}
                 <input v-model="patronymicInput" type="text" placeholder="Отчество">
               </label>
               <label>
-                {{validateTelephone}}
+                {{VALIDATION_ERROR_REG.telephone}}
                 <input v-model="telephoneInput" type="number" placeholder="Телефон">
               </label>
             </div>
             <div>
               <label>
-                {{validateLogin}}
+                {{VALIDATION_ERROR_REG.login}}
                 <input v-model="loginInput" type="text" placeholder="Логин">
               </label>
               <label>
-                {{validatePassword}}
+                {{VALIDATION_ERROR_REG.password}}
                 <input v-model="passwordInput" id="password" type="password" name="password" placeholder="Пароль">
               </label>
               <label>
-                {{validatePasswordRepeat}}
-                <input v-model="passwordRepeatInput" id="password_repeat" type="password" name="password_repeat" placeholder="Подтверждение пароля">
-              </label>
-              <label>
-                {{validatePhoto}}
+                {{VALIDATION_ERROR_REG.photo}}
                 <input @change="onFileChange" name="AddImage" id="AddImage" type="file" placeholder="Фото">
               </label>
             </div>
           </div>
           <label class="agreements">
+            {{validAgree}}
             <span class="agreement">
                 <input v-model="agreementsCheck" type="checkbox" placeholder="" >
                 Соглашение с правилами сайта
             </span>
           </label>
           <label class="btnReg">
-            {{validateAuth}}
-            <button type="button" @click="reg">Зарегестрироваться</button>
+            <button type="button" @click="btnReg">Зарегестрироваться</button>
           </label>
           <p class="reg_Auth">Если у вас есть аккаунт, можно войти<router-link to="auth" @click="modal='auth'" href="#" id="open_Auth"> здесь</router-link></p>
         </form>
-        <router-link to="/" class="pop_close" id="close_Reg"></router-link>
+        <div @click="$router.go(-1)" class="pop_close" id="close_Reg"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {mapGetters, mapActions} from "vuex";
+import router from "@/router";
+
 export default {
   name: "ModalRegistration",
   data() {
     return {
-      url: 'http://store/public/api/',
-
-      //auth
-      user: {},
-      token: null,
-      loginInput: null,
-      passwordInput: null,
-      validateLogin: null,
-      validatePassword: null,
-      validateAuth: null,
+      loginInput: '',
+      passwordInput: '',
+      nameInput: '',
+      surnameInput: '',
+      patronymicInput: '',
+      telephoneInput: '',
+      photoInput: '',
+      agreementsCheck: false,
+      validAgree: '',
     }
   },
-  components: {
-
-  },
-  mounted() {
-
+  computed: {
+    ...mapGetters(["IS_REG", "VALIDATION_ERROR_REG"])
   },
   methods: {
-    async reg() { //Регистрация
-      //if (this.passwordInput !== this.passwordRepeatInput) return
+    ...mapActions(["onReg"]),
 
-      await fetch(this.url + 'reg', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: this.nameInput,
-          surname: this.surnameInput,
-          patronymic: this.patronymicInput,
-          login: this.loginInput,
-          password: this.passwordInput,
-          telephone: this.telephoneInput.toString(),
-          photo: this.photoInput,
-        })
-      })
-          .then(response => response.json())
-          .then(data => data.data ? this.Reg(data.data) : this.RegFail(data.error.errors));
-    },
-  }
+    async btnReg() {
+      if (!this.agreementsCheck)
+        return this.validAgree = 'Сначала согласить с условиями регистрации!'
+      else this.validAgree = ''
+
+      await this.onReg([this.surnameInput, this.nameInput, this.patronymicInput, this.telephoneInput.toString(), this.loginInput, this.passwordInput, this.photoInput])
+
+      if(this.IS_REG)
+        router.push('/auth')
+    }
+  },
 }
 </script>
