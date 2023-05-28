@@ -42,6 +42,11 @@ const routes = [
     path: '/update_user',
     component: () => import('@/views/ModalRegistration.vue')
   },
+
+  {
+    path: '/basket',
+    component: () => import('@/views/PageBasket.vue')
+  },
 ]
 
 const router = createRouter({

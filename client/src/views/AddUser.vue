@@ -99,7 +99,7 @@ export default {
     },
 
     async AddUser() {
-      this.photoInput = this.imageUrl;
+      this.photoInput =   this.imageUrl;
 
       await this.onReg([this.surnameInput, this.nameInput, this.patronymicInput, this.telephoneInput.toString(), this.loginInput, this.passwordInput, this.photoInput])
     }
