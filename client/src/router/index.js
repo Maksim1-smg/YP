@@ -47,6 +47,16 @@ const routes = [
     path: '/basket',
     component: () => import('@/views/PageBasket.vue')
   },
+
+  {
+    path: '/users',
+    component: () => import('@/views/AllUsers.vue')
+  },
+
+  {
+    path: '/products',
+    component: () => import('@/views/AllProduct.vue')
+  },
 ]
 
 const router = createRouter({

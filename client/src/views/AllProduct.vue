@@ -6,22 +6,22 @@
     <table>
       <thead>
       <tr class="top_table">
-        <th>Фамилия</th>
-        <th>Имя</th>
-        <th>Логин</th>
-        <th>Роль</th>
+        <th>Наименование</th>
+        <th>Тип</th>
+        <th>Количество</th>
+        <th>Цена</th>
         <th>Удалить или Изменить</th>
       </tr>
       </thead>
       <tbody>
       <tr class="basket_item" v-for="(item, index) in items" :key="index">
-        <th>{{ item.surname }}</th>
         <th>{{ item.name }}</th>
-        <th>{{ item.login }} </th>
-        <th>{{ item.role }}</th>
+        <th>{{ item.type }}</th>
+        <th>{{ item.count }} </th>
+        <th>{{ item.price }}</th>
         <td class="" style="width: 260px; display:flex; justify-content: space-between">
           <button class="delete" @click="removeItem(index)">Удалить</button>
-          <a href="/add_user"><button class="red">Редактировать</button></a>
+          <a href="/add_product"><button class="red" >Редактировать</button></a>
         </td>
       </tr>
       </tbody>
@@ -32,11 +32,11 @@
 
 <script>
 export default {
-  name: "AllUsers",
+  name: "AllProduct",
   data() {
     return {
       items: [
-        { surname: "Кольмай", name: "Антон", login: "gay" , role: "Пользователь"},
+        { name: "СУПЕР-СТОЛ", type: "ТУМБА", count: "2" , price: 1000},
       ]
     };
   },
