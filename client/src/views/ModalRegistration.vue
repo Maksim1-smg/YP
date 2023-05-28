@@ -2,7 +2,8 @@
   <div class="reg" id="reg">
     <div class="pop_container">
       <div class="pop_body pop_Reg">
-        <p class="pop_Auth_p">Регистрация</p>
+        <p class="pop_Auth_p" v-if="ROLE === 'admin'">Добавить пользователя</p>
+        <p class="pop_Auth_p" v-else>Регистрация</p>
         <form action="">
           <div class="reg_Inp">
             <div>
@@ -76,7 +77,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["IS_REG", "VALIDATION_ERROR_REG"])
+    ...mapGetters(["IS_REG", "VALIDATION_ERROR_REG", "ROLE"])
   },
   methods: {
     ...mapActions(["onReg"]),

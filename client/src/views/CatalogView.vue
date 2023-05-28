@@ -16,12 +16,14 @@
       </div>
     </div>
     <div class="d-flex catalog">
-      <div class="category">
-        <h4>Категории</h4>
-        <ul>
-          <li @click="catalog()">Все</li>
-          <li @click="catalog(type.id)" v-for="type in CATEGORY" :key="type.id">{{type.name}}</li>
-        </ul>
+      <div>
+        <div class="category">
+          <h4>Категории</h4>
+          <ul>
+            <li @click="catalog()">Все</li>
+            <li @click="catalog(type.id)" v-for="type in CATEGORY" :key="type.id">{{type.name}}</li>
+          </ul>
+        </div>
       </div>
       <div class="catalog_all">
         <div class="category_Cards">

@@ -10,7 +10,7 @@
                 <li><router-link to="/" href="#">Корзина</router-link></li>
 
                 <!-- admin -->
-                <template v-if="USER.role == 'Админ'">
+                <template v-if="ROLE === 'admin'">
                     <li>|</li>
                     <li><a href="#">Каталог</a></li>
                     <li><a href="#"></a></li>
@@ -36,7 +36,7 @@ import {mapGetters} from "vuex";
 
 export default {
   name: "TheHeader",
-  computed: mapGetters(["USER", "TOKEN"])
+  computed: mapGetters(["ROLE", "TOKEN", "USER"])
 }
 
 </script>

@@ -49,7 +49,7 @@ export default {
       await this.GET_USERINFO_FROM_API()
 
       if(this.IS_AUTH)
-        router.push('/')
+        router.push('/profile')
     }
   },
 }

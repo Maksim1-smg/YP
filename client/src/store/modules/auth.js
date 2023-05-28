@@ -1,7 +1,8 @@
 export default {
     //данные
     state: {
-        token: null, //токен авторизации
+        token: localStorage.getItem('token') ? localStorage.getItem('token') : null, //токен авторизации
+        role: localStorage.getItem('role') ? localStorage.getItem('role') : null, //роль пользователя
         user: { //информация авторизированного пользователя
             'id': '',
             'name': '',
@@ -9,7 +10,7 @@ export default {
             'patronymic': '',
             'telephone': 0,
             'login': '',
-            'role': '',
+            'group': '',
             'photo': '',
         },
         validationError: {
@@ -73,6 +74,8 @@ export default {
 
                 //записываем данные в хранилище
                 commit('DEL_TOKEN')
+                commit('DEL_ROLE')
+                commit('SET_USER', null)
             }
 
             //если запрос не сработал выводим ошиибки в консоль
@@ -96,6 +99,7 @@ export default {
                 const user = await res.json()
                 //записываем данные в хранилище
                 commit('SET_USER', user.data[0])
+                commit('SET_ROLE', user.data[0].role)
             }
 
             //если запрос не сработал выводим ошиибки в консоль
@@ -113,6 +117,18 @@ export default {
             localStorage.setItem('token', token)
         },
 
+        //метод для записи роли авторезированного пользователя
+        SET_ROLE(state, role) {
+            state.role = role
+            localStorage.setItem('role', role)
+        },
+
+        //метод для записи токена
+        DEL_ROLE(state) {
+            state.role = null
+            localStorage.removeItem('role')
+        },
+
         //метод для удаления токена
         DEL_TOKEN(state) {
             state.token = null
@@ -128,9 +144,10 @@ export default {
                 'patronymic': user.patronymic ? user.patronymic : '',
                 'telephone': user.telephone,
                 'login': user.login,
-                'role': user.role,
+                'group': user.group,
                 'photo': user.photo,
             }
+            localStorage.setItem('user', user)
         },
 
         SET_VALIDATION_ERROR_INPUT(state, errors) {
@@ -146,26 +163,14 @@ export default {
     //обновляем и выводим данные
     getters: {
         //обновляет и возвращает токен авторизвции
-        TOKEN(state) {
-            return state.token
-        },
-
+        TOKEN: state => state.token,
+        //обновляет и возвращает роль авторизированного пользователя
+        ROLE: state => state.role,
         //обновляет и возвращает информацию авторизованного пользователя
-        USER(state) {
-            return state.user
-        },
-
+        USER: state => state.user,
         //обновляет и возвращает ошибки валидации полей
-        VALIDATION_ERROR_AUTH(state) {
-            return state.validationError
-        },
-
+        VALIDATION_ERROR_AUTH: state => state.validationError,
         //возвращает true если пользователь авторизирован
-        IS_AUTH(state) {
-            if(state.token)
-                return true
-
-            return false
-        }
+        IS_AUTH: state => !!state.token,
     }
 }
