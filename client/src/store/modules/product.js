@@ -10,7 +10,7 @@ export default {
         async GET_PRODUCTS_FROM_API({commit}, category) {
             try {
                 //запрос на сервер
-                const res = await fetch('http://store/public/api/product' + (category ? '/' + category : ''), {
+                const res = await fetch('http://store/public/api/product' + (category ? '/category/' + category : ''), {
                     method: 'get',
                 })
 
@@ -33,6 +33,14 @@ export default {
         //метод для записи массива продуктов
         SET_PRODUCTS_TO_STATE(state, products) {
             state.products = products
+
+            state.products.forEach((product) => {
+                const base_url = 'http://store/storage/app/public/images/products/'
+                if (!product.photo)
+                    return product.photo = base_url + 'default.webp'
+
+                return product.photo = base_url + product.photo
+            })
         },
 
         //метод для сортировки продуктов

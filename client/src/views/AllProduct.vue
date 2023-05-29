@@ -15,11 +15,11 @@
       </tr>
       </thead>
       <tbody>
-      <tr class="basket_item" v-for="(item, index) in items" :key="index">
-        <th>{{ item.name }}</th>
-        <th>{{ item.type }}</th>
-        <th>{{ item.count }} </th>
-        <th>{{ item.price }}</th>
+      <tr class="basket_item" v-for="product in PRODUCTS" :key="product.id">
+        <th>{{ product.name }}</th>
+        <th>{{ product.type }}</th>
+        <th>{{ product.amount }} </th>
+        <th>{{ product.price }}</th>
         <td class="" style="width: 260px; display:flex; justify-content: space-between">
           <button class="delete" @click="removeItem(index)">Удалить</button>
           <router-link to="/add_product"><button class="red" >Редактировать</button></router-link>
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
   name: "AllProduct",
   data() {
@@ -41,11 +43,16 @@ export default {
       ]
     };
   },
+  computed: mapGetters(["PRODUCTS"]),
   methods: {
+    ...mapActions(["GET_PRODUCTS_FROM_API"]),
     removeItem(index) {
       this.items.splice(index, 1);
     }
   },
+  async mounted() {
+    await this.GET_PRODUCTS_FROM_API()
+  }
 }
 </script>
 

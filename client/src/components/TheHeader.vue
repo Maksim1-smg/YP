@@ -12,7 +12,8 @@
                 <!-- admin -->
                 <template v-if="ROLE === 'admin'">
                     <li>|</li>
-                    <li><router-link to="/add_product">Добавить продукт</router-link></li>
+                    <li><router-link to="/all_product">Продукты</router-link></li>
+                    <li><router-link to="/all_users">Пользователи</router-link></li>
                     <li><a href="#"></a></li>
                 </template>
             </ul>

@@ -18,10 +18,10 @@ class Product extends Model
         'price',
         'amount',
         'description',
-        'id_type_product',
+        'category_id',
     ];
 
     public function type() {
-        return $this->belongsTo(TypeProduct::class, 'id_type_product');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }

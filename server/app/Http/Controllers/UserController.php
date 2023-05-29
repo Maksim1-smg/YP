@@ -52,7 +52,7 @@ class UserController extends Controller
                 'id' => $user->id,
                 'status' => 'created'
             ]
-        ])->setStatusCode(201, 'Created');
+        ])->setStatusCode(200, 'Created');
     }
 
     public function avatar(AvatarRequest $request) {
@@ -70,7 +70,7 @@ class UserController extends Controller
                 'id' => $user->id,
                 'status' => true
             ]
-        ]);
+        ])->setStatusCode('200', "Updated");
     }
 
     public function remove($id) {
@@ -81,7 +81,7 @@ class UserController extends Controller
                 'id' => $id,
                 'status' => 'removed'
             ]
-        ]);
+        ])->setStatusCode('200', "Removed");
     }
 
     public function update(UpdateRequest $request, $id) {
@@ -92,6 +92,6 @@ class UserController extends Controller
                 'id' => $id,
                 'status' => 'updated'
             ]
-        ]);
+        ])->setStatusCode('200', "Updated");
     }
 }

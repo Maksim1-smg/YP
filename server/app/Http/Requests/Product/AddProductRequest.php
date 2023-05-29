@@ -28,7 +28,6 @@ class AddProductRequest extends ApiRequest
             'price' => 'required|between:0,99.99',
             'amount' => 'required|integer',
             'description' => 'required|string',
-            'photo_file' => 'image|mimes:jpeg,png,jpg',
             'id_type_product' => 'integer',
         ];
     }
